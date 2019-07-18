@@ -38,4 +38,16 @@ public class ServiceTest {
 
         mailService.sendHtmlMail("ivanzhong0310@gmail.com","Html Test Mail", content);
     }
+
+
+    /**
+     * Gmail was blocked attachments mails
+     * @throws MessagingException
+     */
+    @Test
+    public void sendAttachmentsMailTest() throws MessagingException {
+        String filePath = "/Users/aaa./Documents/project/springbootmail.zip";
+        mailService.sentAttachmentsMail("ivanzhong0310@gmail.com", "Attachments Test Mail","This is an attachment mail", filePath);
+
+    }
 }
