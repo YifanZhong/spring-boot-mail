@@ -50,4 +50,17 @@ public class ServiceTest {
         mailService.sentAttachmentsMail("ivanzhong0310@gmail.com", "Attachments Test Mail","This is an attachment mail", filePath);
 
     }
+
+    /**
+     * Gmail was blocked attachments mails
+     * @throws MessagingException
+     */
+    @Test
+    public void sendInLineResourceMailTest() throws MessagingException {
+        String imgPath = "/project/Springbootmail/1.jpg";
+        String rscId = "a001";
+        String content = "<html><body> This is a mail with photo!: <img src=\'cid:"+rscId+"\'> </img></body></html>";
+
+        mailService.sendInLineResourceMail("ivanzhong0310@gmail.com","Photo Test Mail",content,imgPath,rscId);
+    }
 }

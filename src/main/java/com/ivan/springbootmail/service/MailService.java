@@ -68,6 +68,26 @@ public class MailService {
 
         mailSender.send(message);
 
+    }
+
+    public void sendInLineResourceMail(String to, String subject, String content, String rscPath, String rscId) throws MessagingException {
+
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message,true);
+
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(content,true);
+        helper.setFrom(from);
+
+        FileSystemResource res = new FileSystemResource(new File(rscPath));
+        helper.addInline(rscId,res);
+
+        mailSender.send(message);
+
+
 
     }
+
 }
