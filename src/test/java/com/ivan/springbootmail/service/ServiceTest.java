@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
@@ -15,6 +17,9 @@ public class ServiceTest {
 
     @Resource
     MailService mailService;
+
+    @Resource
+    TemplateEngine templateEngine;
 
 
     @Test
@@ -62,5 +67,16 @@ public class ServiceTest {
         String content = "<html><body> This is a mail with photo!: <img src=\'cid:"+rscId+"\'> </img></body></html>";
 
         mailService.sendInLineResourceMail("ivanzhong0310@gmail.com","Photo Test Mail",content,imgPath,rscId);
+    }
+
+
+    @Test
+    public void testTemplateMailTest() throws MessagingException {
+        Context context = new Context();
+        context.setVariable("id","001");
+
+        String emailContent = templateEngine.process("emailTemplate",context);
+
+        mailService.sendHtmlMail("ivanzhong0310@gmail.com", "Mail Template",emailContent);
     }
 }
