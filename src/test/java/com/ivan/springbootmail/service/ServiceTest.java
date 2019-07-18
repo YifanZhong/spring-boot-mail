@@ -34,7 +34,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void sendHtmlMailTest() throws MessagingException {
+    public void sendHtmlMailTest() /*throws MessagingException */{
         String content = "<html>\n"+
                         "<body>\n"+
                         "<h3>This is Html test email.</h3>"+

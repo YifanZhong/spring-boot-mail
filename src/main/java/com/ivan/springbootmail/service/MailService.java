@@ -1,6 +1,8 @@
 package com.ivan.springbootmail.service;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -15,6 +17,8 @@ import java.io.File;
 
 @Service
 public class MailService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("${spring.mail.username}")
     private String from;
@@ -37,17 +41,27 @@ public class MailService {
 
     }
 
-    public void sendHtmlMail(String to, String subject, String content) throws MessagingException {
+    public void sendHtmlMail(String to, String subject, String content) /*throws MessagingException*/ {
+
+        logger.info("Start to send html mail: {},{},{}", to, subject, content);
 
         MimeMessage message = mailSender.createMimeMessage();
 
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(content,true);
-        helper.setFrom(from);
+        MimeMessageHelper helper = null;
 
-        mailSender.send(message);
+        try {
+            helper = new MimeMessageHelper(message, true);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(content,true);
+            helper.setFrom(from);
+
+            mailSender.send(message);
+            logger.info("send html mail successfully");
+        } catch (MessagingException e) {
+            logger.error("send html mail failed: ",e);
+        }
+
 
     }
 
